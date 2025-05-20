@@ -8,16 +8,20 @@ type InputProps = {
   select?: boolean;
   options?: { label: string; value: string | number }[];
 };
+
 export const FormikSelect = ({ label, options = [], ...props }: InputProps) => {
   const [field, meta] = useField(props.name);
+  const isError = meta.touched && Boolean(meta.error);
+
   return (
     <TextField
       select
       fullWidth
       label={label}
       {...field}
-      error={meta.touched && !!meta.error}
-      helperText={meta.touched && meta.error}
+      {...props}
+      error={isError}
+      helperText={isError ? meta.error : ""}
       margin="normal"
     >
       {options.map((opt) => (

@@ -2,48 +2,41 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { FormikTextField } from "../../components/FormikTextField";
+import { FormikDatePicker } from "../../components/FormikDatePicker";
 import { FormikSelect } from "../../components/FormikSelect";
 import { axiosInstance } from "../../utils/axiosInstance";
 import { Toast } from "../../components/Toast";
 import { useEffect, useState } from "react";
 
 interface timings {
-  shiftName: string;
-  shiftTime: {
-    shiftCode: string;
-    time: string;
-  };
+  label: string;
+  value: string;
 }
 interface Staff {
-  userName: string;
-  _id: string;
+  label: string;
+  value: string;
 }
 export const CreateShift = () => {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [timings, setTimings] = useState<timings[]>([]);
   const InitialValues = {
-    email: "",
-    name: "",
-    gender: "",
-    terms: false,
-    subscription: [],
+    staff: "",
+    shiftTime: "",
+    date: null,
   };
-  const genderOptions = [
-    { value: "", label: "Select Gender" },
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-  ];
-  const validationSchema = yup.object({
-    name: yup.string().required("Name is required"),
 
-    email: yup
-      .string()
-      .email("Inavalid email format")
-      .required("Email is a required field"),
-    gender: yup.string().required("Gender is required"),
-    terms: yup.bool().oneOf([true], "You mustaccept the terms"),
-    subscription: yup.array().min(1, "Select at least one option"),
+  const validationSchema = yup.object({
+    // name: yup.string().required("Name is required"),
+    staff: yup.string().required("Name is required"),
+    shiftTime: yup.string().required("ShiftTime is required"),
+    date: yup.date().required("Date is required"),
+    // email: yup
+    //   .string()
+    //   .email("Inavalid email format")
+    //   .required("Email is a required field"),
+    // gender: yup.string().required("Gender is required"),
+    // terms: yup.bool().oneOf([true], "You mustaccept the terms"),
+    // subscription: yup.array().min(1, "Select at least one option"),
   });
 
   const fetchDetails = async () => {
@@ -81,6 +74,7 @@ export const CreateShift = () => {
       console.log("Submission attempt finished.");
     }
   };
+  console.log(staff, timings);
 
   return (
     <div>
@@ -91,16 +85,13 @@ export const CreateShift = () => {
       >
         <Form>
           <Box sx={{ maxWidth: 400, margin: "0 auto" }}>
-            <FormikTextField name="userName" label="StaffName" />
-            <FormikTextField name="shiftCode" label="ShiftCode" />
-            <FormikTextField name="shiftTime" label="ShiftTime" />
-            <FormikSelect name="shiftCode" label="ShiftCode" options={staff} />
+            <FormikSelect name="staff" label="Staff" options={staff} />
             <FormikSelect
               name="shiftTime"
               label="ShiftTime"
-              options={genderOptions}
+              options={timings}
             />
-
+            <FormikDatePicker name="date" label="Select Date" />
             <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
               Submit
             </Button>
