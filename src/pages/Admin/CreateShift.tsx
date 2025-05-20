@@ -2,8 +2,8 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { FormikDatePicker } from "../../components/FormikDatePicker";
 import { FormikSelect } from "../../components/FormikSelect";
+import { FormikTextField } from "../../components/FormikTextField";
 import { axiosInstance } from "../../utils/axiosInstance";
 import { Toast } from "../../components/Toast";
 import { useEffect, useState } from "react";
@@ -91,7 +91,8 @@ export const CreateShift = () => {
               label="ShiftTime"
               options={timings}
             />
-            <FormikDatePicker name="date" label="Select Date" />
+            {/* <FormikDatePicker name="date" label="Select Date" /> */}
+            <FormikTextField type="date" label="Date" name="date" focused />
             <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
               Submit
             </Button>

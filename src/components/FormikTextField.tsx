@@ -7,6 +7,8 @@ type InputProps = {
   type?: string;
   select?: boolean;
   options?: { label: string; value: string | number }[];
+
+  focused?: boolean;
 };
 
 export const FormikTextField = ({ label, ...props }: InputProps) => {
